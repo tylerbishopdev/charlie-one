@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+
+    --background: #131212;
+    --foreground: #f1f1f1;
+
+    --muted: #f0f4f9;
+    --muted-foreground: #6e7b8a;
+
+    --popover: #ffffff;
+    --popover-foreground: #1c1c1c;
+
+    --border: #d9e2ec;
+    --input: #d9e2ec;
+
+    --card: #ffffff;
+    --card-foreground: #1c1c1c;
+
+    --primary: #1c1c1c;
+    --primary-foreground: #f0f4f9;
+
+    --secondary: #f0f4f9;
+    --secondary-foreground: #1c1c1c;
+
+    --accent: #f0f4f9;
+    --accent-foreground: #1c1c1c;
+
+    --destructive: #ff0000;
+    --destructive-foreground: #f0f4f9;
+
+    --ring: #8fa1b3;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: #030303;
+    --foreground: #b0f8b0;
+
+    --muted: #1c1c1c;
+    --muted-foreground: #6e7b8a;
+
+    --accent: #2b2b2b;
+    --accent-foreground: #f0f4f9;
+
+    --popover: #0b0b0b;
+    --popover-foreground: #8fa1b3;
+
+    --border: #2b2b2b;
+    --input: #2b2b2b;
+
+    --card: #0b0b0b;
+    --card-foreground: #d9e2ec;
+
+    --primary: #f0f4f9;
+    --primary-foreground: #020202;
+
+    --secondary: #1c1c1c;
+    --secondary-foreground: #f0f4f9;
+
+    --destructive: #a00000;
+    --destructive-foreground: #f0f4f9;
+
+    --ring: #2b2b2b;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* For reactflow */
+
+.dndflow {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dndflow aside {
+  border-right: 1px solid #eee;
+  padding: 15px 10px;
+  font-size: 12px;
+  background: #fcfcfc;
+}
+
+.dndflow aside .description {
+  margin-bottom: 10px;
+}
+
+.dndflow .dndnode {
+  height: 20px;
+  padding: 4px;
+  border: 1px solid #1a192b;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+}
+
+.dndflow .dndnode.input {
+  border-color: #0041d0;
+}
+
+.dndflow .dndnode.output {
+  border-color: #ff0072;
+}
+
+.dndflow .reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dndflow .selectall {
+  margin-top: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .dndflow {
+    flex-direction: row;
+  }
+
+  .dndflow aside {
+    width: 20%;
+    max-width: 250px;
+  }
+}
