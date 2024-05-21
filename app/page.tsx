@@ -24,7 +24,7 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import { Sidebar } from "@/components/sidebar"
 import { saveSearchHistory, loadSearchHistory } from "@/lib/utils"
 import { defaultSavedHistory, SavedHistory } from '@/data/savedHistory';
-import { XMarkIcon, RocketLaunchIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon, MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 
 import { Alert, AlertTitle } from "@/components/ui/alert"
 
@@ -173,12 +173,12 @@ export default function IndexPage() {
   };
 
   return (
-    <section className="px-2 md:container grid items-center gap-6 pb-8 pt-6 md:py-6 my-6 border rounded-md">
-      <div className="flex flex-col items-start gap-2">
-          <p className='text-lg font-bold'>Create an AI Generated Knowledge Graph!</p>
+    <section className="px-2 mx-6 md:container grid items-center gap-6 pb-8 pt-6 md:py-6 my-6 border rounded-md">
+      <div className="flex flex-col items-start  gap-2">
+          <h2 className='text-2xl pl-4 font-black tracking-tight text-green-400'>Find Google Entity Relationships For Your Keywords</h2>
           <Alert>
-            <RocketLaunchIcon className="h-4 w-4" />
-            <AlertTitle>A knowledge graph offers a non-linear structure to information. Helpful for learning and understanding.</AlertTitle>
+            <MagnifyingGlassCircleIcon className="h-5 w-5" />
+            <AlertTitle className="leading-6 text-lg">See what associations Google has embedded as related entities for your keywords. Identify topics and subjects that are often triggers for Google Search components, like 'People also search' and 'Google AI' answers.</AlertTitle>
           </Alert>
           <div className='text-xs pb-3'>
             <p>This project was inspired by <a href="https://twitter.com/yoheinakajima" target="_blank" rel="noopener noreferrer" className="underline text-blue-400">@yoheinakajima</a> creator of <a href="https://instagraph.ai" target="_blank" rel="noopener noreferrer" className="underline text-blue-400">instagraph.ai</a>. <a href="https://twitter.com/yoheinakajima/status/1706848028014068118" target="_blank" rel="noopener noreferrer" className=" text-blue-400"><sup>[EX1]</sup></a> <a href="https://twitter.com/yoheinakajima/status/1701351068817301922" target="_blank" rel="noopener noreferrer" className="text-blue-400"><sup>[EX2]</sup></a></p>

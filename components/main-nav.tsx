@@ -12,9 +12,11 @@ interface MainNavProps {
 export function MainNav({ items }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="flex items-start flex-col">
-        <span className="font-bold text-xl">{siteConfig.name}</span>
-        <span className="text-xs text-gray-500 tracking-tighter -mt-1">{siteConfig.subName}</span>
+      <Link href="/" className="flex-row items-start flex-col">
+        <div className="flex-col p-1 align-start">
+        <img alt="ezoic logo" src="./ezoiclogo.png" className="flex w-auto h-auto" />
+        </div>
+        <span className="font-black flex pt-2 text-4xl">{siteConfig.name}</span>
       </Link>
       {items?.length ? (
         <nav className="flex gap-6">
