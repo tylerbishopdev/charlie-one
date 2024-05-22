@@ -13,12 +13,12 @@ interface SidebarProps {
 export function Sidebar({ className, searchHistory, onHistorySelect }: SidebarProps) {
   return (
     <div className={cn("pb-12", className)}>
-      <div className="space-y-4 py-4">
+      <div className="space-y-2">
         <div className="py-2">
-          <h2 className="relative px-7 text-lg font-semibold tracking-tight">
-            Saved
+          <h2 className="relative mx-0 px-10  py-2   text-zinc-900 bg-zinc-400 rounded-tl-lg  text-sm font-sans tracking-tight font-extrabold ">
+            Saved  /  Keywords
           </h2>
-          <ScrollArea className="h-[600px] px-1">
+          <ScrollArea className="h-[600px] px-1 border border-zinc-400 rounded-bl-lg">
             <div className="space-y-1 p-2">
               {searchHistory?.map((searchItem, i) => (
                 <div key={`${searchItem}-${i}`} className="flex justify-between items-center">

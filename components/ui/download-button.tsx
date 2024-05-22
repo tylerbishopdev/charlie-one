@@ -39,12 +39,12 @@ function DownloadButton({ disabled = true}) {
   };
 
   return (
-    <Panel position="top-left">
+    <Panel position="bottom-left">
       <button 
         onClick={onClick}
         type="button"
         disabled={disabled}
-        className={`${buttonVariants({ variant: "secondary", size: "sm" })} download-btn mt-2 md:mt-0`}
+        className={`${buttonVariants({ variant: "default", size: "sm" })} download-btn mt-2 md:mt-0`}
     >
 
         Download Image

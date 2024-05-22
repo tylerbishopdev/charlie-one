@@ -1,43 +1,51 @@
-# InstaGraph 🌐 Next JS and FastAPI
+# Google Entity-Related Visualization by $hibaKing
 
-Original project and inspiration: [<a href="https://twitter.com/yoheinakajima">Yohei Nakajima</a>](https://twitter.com/yoheinakajima) - [<a href="https://github.com/yoheinakajima/instagraph">Instagraph</a>](https://github.com/yoheinakajima/instagraph)
+I named this project *Charlie-One* after the Charlie Day meme with the conspiracy theory board, this project is a web application that takes in a user's text input and visualizes the entities and their relationships using React Flow. The backend is a FastAPI server that uses the OpenAI API to generate visualizations for Google keyword entities and relationships.
 
-Even though I love working with Python apps (previous Django developer), modern frontend technologies like NextJS (and Tailwind CSS, Shadcn etc) enable you to move faster. Also with the popularity of LLMs, streaming and server-sent-endpoints have become more important in AI products. FastAPI is perfect for building backends to support this.
-
-![Demo](demo.gif)
-
-[<a href="https://tally.so/r/mY0676">Sign up for updates and more information about the deployed app.</a>]((https://tally.so/r/mY0676))
-
-Project made with:
-- [<a href="https://twitter.com/shadcn">Shadcn</a>](https://twitter.com/shadcn) - [<a href="https://github.com/shadcn/next-template">Next JS Template</a>](https://github.com/shadcn/next-template)
+Core technologies used in this project:
+- [<a href="https://twitter.com/shadcn">Shadcn</a>](https://twitter.com/shadcn) 
 - [<a href="https://reactflow.dev/">React Flow</a>](https://reactflow.dev/)
+-  [<a href="https://fastapi.tiangolo.com/">FastAPI</a>](https://fastapi.tiangolo.com/)
+-  [<a href="https://openai.com/">OpenAI</a>](https://openai.com/)
+-  [<a href="https://nextjs.org/">Nextjs</a>](https://nextjs.org/)
 
-## Installation 🛠️
+You'll want to use *yarn*, **not npm** for this project.
+
+
+## It's Perfect :) But If You Must Modify... 🛠️
 
 1. Clone the repository
 ```bash
 git clone https://github.com/waseemhnyc/instagraph-nextjs-fastapi.git
 ```
-2. Navigate to the project directory
+2. Ensure you can use the `yarn` command in your terminal. If not, install yarn:
 ```bash
-cd instagraph-nextjs-fastapi
+npm install -g yarn
 ```
-3. Install packages
+3. Move into the `web` directory
 ```bash
-yarn
+cd ./charlie-one
 ```
-4. Set environment variables
+4. Install packages
 ```bash
-OPENAI_API_KEY=your-api-key-here
+yarn install
 ```
-5. Run Next JS app
+ENV variables set in Vercel so you don't need to worry about them. If you want to run the project locally, you'll need to create a `.env.local` file in the `web` directory and add your OpenAI API key to it. 
+
+Or if you have Vercel CLI:
+```bash
+vercel link
+vercel pull
+vercel env pull
+```
+To run Charlie-One locally
 ```bash
 yarn run dev
 ```
 
 Now that the frontend is working, it's time to get the backend up and running.
 
-6. Move into the `api` directory, create a virutalenv and source the environment
+Move into the `api` directory, create a virutalenv and source the environment
 
 ```bash
 cd api/
@@ -45,30 +53,27 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-7. Install libraries
+Install libraries
 
 ```bash
 pip install -r requirements.txt
 ```
 
-8. Create a .env file and input your OpenAI API Key in the file
+Create a .env file and input your OpenAI API Key in the file
 
 ```bash
 cp .env.example .env
 ```
 
-9. Run local server
+Run local server
 ```bash
 uvicorn main:app --host 0.0.0.0
 ```
 
-## Usage 🎉
+## Local Port
 
-Web Interface
-- Open your web browser and navigate to `http://localhost:3000/`.
-- Type your text in the input box.
-- Click "Submit" and wait for the magic to happen!
+Frontend: http://localhost:3000/
 
-## License 📝
 
-MIT License. See LICENSE for more information.
+
+
