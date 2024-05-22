@@ -11,31 +11,29 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   return (
-    <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="flex-row items-start flex-col">
-        <div className="flex-col p-1 align-start">
-        <img alt="ezoic logo" src="./ezoiclogo.png" className="flex w-auto h-auto" />
-        </div>
-        <span className="font-black flex pt-2 text-4xl">{siteConfig.name}</span>
+    <div className=" gap-2 md:gap-2 align-middle w-full flex flex-nowrap">
+      <Link href="/" className="flex-col">
+        <p className="font-black flex pt-2 tracking-tighter text-3xl w-full flex flex-nowrap">
+          <img
+            alt="ezoic logo"
+            src="./ezlogo.png"
+            className="flex w-[40px] brightness-100 p"
+          />
+          entity<span class="dark:text-[#7ede46] text-[#439b10]">graph</span>
+        </p>
       </Link>
       {items?.length ? (
-        <nav className="flex gap-6">
-          {items?.map(
-            (item, index) =>
-              item.href && (
-                <Link
-                  key={index}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center text-sm font-medium text-muted-foreground",
-                    item.disabled && "cursor-not-allowed opacity-80"
-                  )}
-                >
-                  {item.title}
-                </Link>
-              )
-          )}
-        </nav>
+        <div className="flex-row flex-col gap-2">
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.url}
+              className="flex items-center"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
       ) : null}
     </div>
   )

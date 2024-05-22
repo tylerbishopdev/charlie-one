@@ -1,251 +1,299 @@
 "use client"
-import React, { useState, useRef, useCallback, useEffect, createRef } from 'react';
+
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import ReactFlow, {
-  ReactFlowProvider,
-  addEdge,
-  useNodesState,
-  useEdgesState,
-  Controls,
-  MiniMap,
   Background,
   BackgroundVariant,
   Connection,
+  Controls,
   Edge,
+  MiniMap,
   Node,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+  ReactFlowProvider,
+  addEdge,
+  useEdgesState,
+  useNodesState,
+} from "reactflow"
 
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import { buttonVariants } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import DownloadButton from '@/components/ui/download-button';
+import "reactflow/dist/style.css"
+import { Fragment } from "react"
+import { SavedHistory, defaultSavedHistory } from "@/data/savedHistory"
+import { Dialog, Transition } from "@headlessui/react"
+import {
+  MagnifyingGlassCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline"
 import { ReloadIcon } from "@radix-ui/react-icons"
-import { Sidebar } from "@/components/sidebar"
-import { saveSearchHistory, loadSearchHistory } from "@/lib/utils"
-import { defaultSavedHistory, SavedHistory } from '@/data/savedHistory';
-import { XMarkIcon, MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 
+import { loadSearchHistory, saveSearchHistory } from "@/lib/utils"
 import { Alert, AlertTitle } from "@/components/ui/alert"
-
+import { buttonVariants } from "@/components/ui/button"
+import DownloadButton from "@/components/ui/download-button"
+import { Input } from "@/components/ui/input"
+import { Sidebar } from "@/components/sidebar"
 
 export default function IndexPage() {
-  const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [currentNode, setCurrentNode] = useState<Node<any, string | undefined> | null>(null);
-  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [userInput, setUserInput] = useState("");
-  const [submittedUserInput, setSubmittedUserInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [searchHistory, setSearchHistory] = useState<SavedHistory[]>([]);
-  const [clickedSave, setClickedSave] = useState(false);
-  const [eventSource, setEventSource] = useState<EventSource | null>(null);
+  const reactFlowWrapper = useRef<HTMLDivElement>(null)
+  const [nodes, setNodes, onNodesChange] = useNodesState([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [currentNode, setCurrentNode] = useState<Node<
+    any,
+    string | undefined
+  > | null>(null)
+  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
+  const [userInput, setUserInput] = useState("")
+  const [submittedUserInput, setSubmittedUserInput] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchHistory, setSearchHistory] = useState<SavedHistory[]>([])
+  const [clickedSave, setClickedSave] = useState(false)
+  const [eventSource, setEventSource] = useState<EventSource | null>(null)
 
-  const ref = createRef<HTMLDivElement>();
+  const ref = createRef<HTMLDivElement>()
 
-  const onInit = (reactFlowInstance: any) => setReactFlowInstance(reactFlowInstance);
-  const onConnect = useCallback((params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)), []);
+  const onInit = (reactFlowInstance: any) =>
+    setReactFlowInstance(reactFlowInstance)
+  const onConnect = useCallback(
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+    []
+  )
 
   const handleSaveToHistory = () => {
-    const newSearchHistory = [{ searchValue: submittedUserInput, results: { nodes, edges } }, ...searchHistory];
-    setSearchHistory(newSearchHistory);
-    saveSearchHistory(newSearchHistory);
+    const newSearchHistory = [
+      { searchValue: submittedUserInput, results: { nodes, edges } },
+      ...searchHistory,
+    ]
+    setSearchHistory(newSearchHistory)
+    saveSearchHistory(newSearchHistory)
     setUserInput("")
     setSubmittedUserInput("")
     setLoading(false)
-    setClickedSave(true);
-  };
+    setClickedSave(true)
+  }
 
   useEffect(() => {
-    const currentSearchHistory = loadSearchHistory();
-    if(currentSearchHistory.length === 0) {
-      setSearchHistory(defaultSavedHistory);
+    const currentSearchHistory = loadSearchHistory()
+    if (currentSearchHistory.length === 0) {
+      setSearchHistory(defaultSavedHistory)
     } else {
-      setSearchHistory(currentSearchHistory);
-      const { nodes: initialNodes, edges: initialEdges } = currentSearchHistory[0].results;
-      setNodes(initialNodes);
-      setEdges(initialEdges);
-      setClickedSave(true);
+      setSearchHistory(currentSearchHistory)
+      const { nodes: initialNodes, edges: initialEdges } =
+        currentSearchHistory[0].results
+      setNodes(initialNodes)
+      setEdges(initialEdges)
+      setClickedSave(true)
     }
-
-  }, []);
-
+  }, [])
 
   const centerGraph = () => {
     if (reactFlowInstance) {
-      reactFlowInstance.fitView();
+      reactFlowInstance.fitView()
       reactFlowInstance
     }
-  };
+  }
 
   useEffect(() => {
-    centerGraph();
-  }, [nodes, edges]);
+    centerGraph()
+  }, [nodes, edges])
 
   useEffect(() => {
     if (currentNode) {
       setNodes((prevNodes) => {
-        const nodeExists = prevNodes.some(node => node.id === currentNode.id);
+        const nodeExists = prevNodes.some((node) => node.id === currentNode.id)
         if (!nodeExists) {
-          const newNode = { ...currentNode, id: `${currentNode.id}` };
-          return [...prevNodes, newNode];
+          const newNode = { ...currentNode, id: `${currentNode.id}` }
+          return [...prevNodes, newNode]
         }
-        return prevNodes;
-      });
+        return prevNodes
+      })
     }
-  }, [currentNode]);
+  }, [currentNode])
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!userInput) return;
+    event.preventDefault()
+    if (!userInput) return
     setSubmittedUserInput(userInput)
-    setLoading(true);
-    setClickedSave(false);
-    setNodes([]);
-    setEdges([]);
+    setLoading(true)
+    setClickedSave(false)
+    setNodes([])
+    setEdges([])
 
     try {
+      const baseUrl =
+        process.env.NODE_ENV === "development"
+          ? "https://127.0.0.1:8000"
+          : "https://instagraph-fast-api.onrender.com"
+      const url = `${baseUrl}/api/get_graph/${encodeURIComponent(userInput)}`
 
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'https://127.0.0.1:8000' : 'https://instagraph-fast-api.onrender.com';
-      const url = `${baseUrl}/api/get_graph/${encodeURIComponent(userInput)}`;
+      const ees = new EventSource(url)
+      setEventSource(ees)
 
-      const ees = new EventSource(url);
-      setEventSource(ees);
-      
       ees.onmessage = (event) => {
-        if (event.data === '[DONE]') {
-          setLoading(false);
-          ees.close();
+        if (event.data === "[DONE]") {
+          setLoading(false)
+          ees.close()
         } else {
-            const data = JSON.parse(event.data);
-            const current_node = { 
-              id: data.id,
-              resizing: true,
-              position: { x: data.x, y: data.y},
-              style: { 
-                color: data.stroke,  
-                background: data.background, 
-                width: '100px',
-              }, 
-              data: { label: data.label}, 
-              draggable: true, 
-              selectable: false, 
-              deletable: false 
+          const data = JSON.parse(event.data)
+          const current_node = {
+            id: data.id,
+            resizing: true,
+            position: { x: data.x, y: data.y },
+            style: {
+              color: data.stroke,
+              background: data.background,
+              width: "100px",
+            },
+            data: { label: data.label },
+            draggable: true,
+            selectable: false,
+            deletable: false,
+          }
+          setCurrentNode(current_node)
+          data.adjacencies.forEach(
+            (adjacency: {
+              source: string
+              id: string
+              target: string
+              label: string
+            }) => {
+              adjacency.source = data.id
+              setEdges((oldEdges) =>
+                addEdge(
+                  {
+                    id: `${adjacency.source}_${adjacency.target}`,
+                    source: adjacency.source,
+                    target: adjacency.target,
+                    label: adjacency.label,
+                  },
+                  oldEdges
+                )
+              )
             }
-            setCurrentNode(current_node);
-            data.adjacencies.forEach((adjacency: { 
-                source: string; 
-                id: string; 
-                target: string; 
-                label: string; 
-              }) => {
-              adjacency.source = data.id;
-              setEdges((oldEdges) => addEdge({
-                id: `${adjacency.source}_${adjacency.target}`, 
-                source: adjacency.source, 
-                target: adjacency.target, 
-                label: adjacency.label,
-              }, oldEdges));
-            });
+          )
         }
-      };
-
-      ees.onerror = (event) => {
-        ees.close();
       }
 
+      ees.onerror = (event) => {
+        ees.close()
+      }
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      console.error(error)
+      setLoading(false)
     } finally {
-      
     }
-  };
+  }
 
   const handleCancel = () => {
     if (eventSource) {
-      eventSource.close();
-      setEventSource(null);
-      setLoading(false);
+      eventSource.close()
+      setEventSource(null)
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <section className="px-2 mx-6 md:container grid items-center gap-6 pb-8 pt-6 md:py-6 my-6 border rounded-md">
+    <section className="px-2 mx-6 md:container grid items-center gap-6 pb-8 pt-6 md:py-6 my-6 border rounded-sm border-zinc-700">
       <div className="flex flex-col items-start  gap-2">
-          <h2 className='text-2xl pl-4 font-black tracking-tight text-green-400'>Find Google Entity Relationships For Your Keywords</h2>
-          <Alert>
-            <MagnifyingGlassCircleIcon className="h-5 w-5" />
-            <AlertTitle className="leading-6 text-lg">See what associations Google has embedded as related entities for your keywords. Identify topics and subjects that are often triggers for Google Search components, like 'People also search' and 'Google AI' answers.</AlertTitle>
-          </Alert>
-          <div className='text-xs pb-3'>
-            <p>This project was inspired by <a href="https://twitter.com/yoheinakajima" target="_blank" rel="noopener noreferrer" className="underline text-blue-400">@yoheinakajima</a> creator of <a href="https://instagraph.ai" target="_blank" rel="noopener noreferrer" className="underline text-blue-400">instagraph.ai</a>. <a href="https://twitter.com/yoheinakajima/status/1706848028014068118" target="_blank" rel="noopener noreferrer" className=" text-blue-400"><sup>[EX1]</sup></a> <a href="https://twitter.com/yoheinakajima/status/1701351068817301922" target="_blank" rel="noopener noreferrer" className="text-blue-400"><sup>[EX2]</sup></a></p>
-            <p>If you have any questions or suggestions, reach out via <a href="https://twitter.com/waseemhnyc" target="_blank" rel="noopener noreferrer" className="underline text-blue-400">Twitter</a> or <a href="https://tally.so#tally-open=mY0676&tally-layout=modal&tally-width=1000&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=0" className="underline text-blue-400">here</a>. </p> 
-          </div>
-        <div className="text-sm font-semibold tracking-tight">
-          Search:
-        </div>
-        <div className='w-full items-center'>
-          <form className='flex flex-col' onSubmit={handleSubmit}>
-          <Input
+        <h2 className="text-xl pt-4  font-black tracking-tight dark:text-[#8aee50] text-[#469519]">
+          Find Google Entity Relationships For Your Keywords
+        </h2>
+        <Alert>
+          <AlertTitle className="leading-6 font-mono font-medium text-sm">
+            See what associations Google has embedded as related entities for
+            your keywords. Identify topics and subjects that are often triggers
+            for Google Search components, like 'People also search' and 'Google
+            AI' answers.
+          </AlertTitle>
+        </Alert>
+
+        <div className="text-sm font-mono tracking-tight">Search:</div>
+        <div className="w-full items-center">
+          <form className="flex flex-col" onSubmit={handleSubmit}>
+            <Input
               type="text"
               placeholder="Enter your search term here"
               className="mr-2 md:mr-6 w-full"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
             />
-            <div className='flex pt-2 gap-2'>
-            <button
+            <div className="flex pt-4 gap-2">
+              <button
                 type="submit"
                 disabled={loading}
-                className={`${buttonVariants({ variant: "default", size: "sm" })} md:mt-0` }
+                className={`${buttonVariants({
+                  variant: "outline",
+                  size: "sm",
+                })} md:mt-0`}
               >
-                {loading ? <><ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> Loading...</> : "Search"}
-            </button>
-            <button
+                {loading ? (
+                  <>
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />{" "}
+                    Loading...
+                  </>
+                ) : (
+                  "Search"
+                )}
+              </button>
+              <button
                 type="button"
                 disabled={!loading}
                 onClick={handleCancel}
-                className={`${buttonVariants({ variant: "secondary", size: "sm" })} md:mt-0`}
+                className={`${buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                })} md:mt-0`}
               >
                 Cancel
-            </button>
-            <button
+              </button>
+              <button
                 type="button"
                 disabled={loading || nodes.length <= 1 || clickedSave}
                 onClick={handleSaveToHistory}
-                className={`${buttonVariants({ variant: "secondary", size: "sm" })} md:mt-0 hidden lg:visible`}
+                className={`${buttonVariants({
+                  variant: "secondary",
+                  size: "sm",
+                })} md:mt-0 hidden lg:visible`}
               >
                 Save
-            </button>
-            <button
+              </button>
+              <button
                 type="button"
                 onClick={() => setSidebarOpen(true)}
-                className={`${buttonVariants({ variant: "secondary", size: "sm" })} md:mt-0 hidden lg:visible`}
+                className={`${buttonVariants({
+                  variant: "secondary",
+                  size: "sm",
+                })} md:mt-0 hidden lg:visible`}
               >
                 History
-            </button>
+              </button>
             </div>
-
           </form>
-        </div>        
+        </div>
       </div>
       <div className="flex justify-between" ref={ref}>
         {/* Desktop Sidebar */}
-        <Sidebar 
-          searchHistory={searchHistory} 
-          className="hidden lg:block w-1/4" 
+        <Sidebar
+          searchHistory={searchHistory}
+          className="hidden lg:block w-1/4"
           onHistorySelect={(historyItem) => {
-            setNodes(historyItem.results.nodes);
-            setEdges(historyItem.results.edges);
-            setClickedSave(true);
+            setNodes(historyItem.results.nodes)
+            setEdges(historyItem.results.edges)
+            setClickedSave(true)
           }}
         />
         {/* Mobile Sidebar */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
+          <Dialog
+            as="div"
+            className="relative z-50 lg:hidden"
+            onClose={setSidebarOpen}
+          >
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -279,20 +327,27 @@ export default function IndexPage() {
                     leaveTo="opacity-0"
                   >
                     <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                      <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
+                      <button
+                        type="button"
+                        className="-m-2.5 p-2.5"
+                        onClick={() => setSidebarOpen(false)}
+                      >
                         <span className="sr-only">Close sidebar</span>
-                        <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                        <XMarkIcon
+                          className="h-6 w-6 text-white"
+                          aria-hidden="true"
+                        />
                       </button>
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <Sidebar 
-                    searchHistory={searchHistory} 
-                    className="w-full bg-white" 
+                  <Sidebar
+                    searchHistory={searchHistory}
+                    className="w-full bg-white"
                     onHistorySelect={(historyItem) => {
-                      setNodes(historyItem.nodes);
-                      setEdges(historyItem.edges);
-                      setClickedSave(true);
+                      setNodes(historyItem.nodes)
+                      setEdges(historyItem.edges)
+                      setClickedSave(true)
                     }}
                   />
                 </Dialog.Panel>
@@ -314,10 +369,14 @@ export default function IndexPage() {
                     onInit={onInit}
                     fitView
                   >
-                    <DownloadButton disabled={loading || nodes.length <= 1}/>
-                    <Controls position={"top-right"}/>
+                    <DownloadButton disabled={loading || nodes.length <= 1} />
+                    <Controls position={"top-right"} />
                     <MiniMap nodeStrokeWidth={3} zoomable pannable />
-                    <Background variant={BackgroundVariant.Lines} gap={15} size={1} />
+                    <Background
+                      variant={BackgroundVariant.Lines}
+                      gap={15}
+                      size={1}
+                    />
                   </ReactFlow>
                 </div>
               </ReactFlowProvider>
@@ -328,4 +387,3 @@ export default function IndexPage() {
     </section>
   )
 }
-
