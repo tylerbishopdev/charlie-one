@@ -11,7 +11,7 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   return (
-    <div className=" gap-2 md:gap-2 align-middle w-full flex flex-nowrap">
+    <div className=" gap-2 md:gap-2 align-middle w-full  flex-nowrap">
       <Link href="/" className="flex-col">
         <p className="font-black flex pt-2 tracking-tighter text-3xl w-full flex flex-nowrap">
           <img
@@ -19,7 +19,8 @@ export function MainNav({ items }: MainNavProps) {
             src="./ezlogo.png"
             className="flex w-[40px] brightness-100 p"
           />
-          entity<span class="dark:text-[#7ede46] text-[#439b10]">graph</span>
+          entity
+          <span className="dark:text-[#7ede46] text-[#439b10]">graph</span>
         </p>
       </Link>
       {items?.length ? (
