@@ -11,9 +11,9 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   return (
-    <div className=" gap-2 md:gap-2 align-middle w-full  flex-nowrap">
+    <div className=" gap-2 md:gap-2 align-middle w-full  ">
       <Link href="/" className="flex-col">
-        <p className="font-black flex pt-2 tracking-tighter text-3xl w-full flex flex-nowrap">
+        <p className="font-black flex pt-2 tracking-tighter text-3xl w-full">
           <img
             alt="ezoic logo"
             src="./ezlogo.png"
@@ -24,7 +24,7 @@ export function MainNav({ items }: MainNavProps) {
         </p>
       </Link>
       {items?.length ? (
-        <div className="flex-row flex-col gap-2">
+        <div className="flex-row  gap-2">
           {items.map((item) => (
             <Link
               key={item.label}
